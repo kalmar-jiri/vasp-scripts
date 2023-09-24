@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# create a POTCAR file by concatation of refpot files
+#
+if [ -f POTCAR ]
+then
+rm POTCAR
+fi
+for i in $*
+do
+  if test -f /home/novotny/dev/PT/$i/POTCAR
+  then
+    cat /home/novotny/dev/PT/$i/POTCAR >> POTCAR
+  else
+    echo ERROR: no pseudopotentials for $i. Try do add proper extension "("e.g. $i"_sv" or $i"_pv"")".
+  fi
+
+done
+

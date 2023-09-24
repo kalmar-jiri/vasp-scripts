@@ -1,0 +1,97 @@
+Guide for all kinds of calculations
+
+
+-----------------------------------------------------------------
+
+Band structure
+
+ICHARG = 11
+
+copy CHGCAR from selfconsistent calculation
+KPOINTS file specifying k-point path through high symmetry points
+-----------------------------------------------------------------
+
+Linear optical properties
+
+NBANDS = xxx  # set higher number of bands
+LOPTICS = .TRUE.
+LRPA = .TRUE.
+NEDOS = 1000 or 2000
+EDIFF = quite strict
+ISMEAR = possibly -5
+
+WAVECAR from selfconsistent calculation
+-----------------------------------------------------------------
+
+HSE06
+
+LHFCALC = .TRUE.
+HFSCREEN = 0.2
+
+It is possible to change ALGO from 'Normal' to 'Damped'
+-----------------------------------------------------------------
+
+G0W0
+
+ALGO = EVGW0
+NELM = 1
+NOMEGA = xxx  # possibly convergence test is needed
+NBANDSGW = xxx  # same
+#LOPTICS = .TRUE.  # it must not be included
+
+First a 'Linear optical prop.' calculation must be done with a
+significant amount of NBANDS
+
+Copy WAVECAR and WAVEDER files from previous calculation
+-----------------------------------------------------------------
+
+BSE
+
+ALGO = BSE
+NBANDSO = xxx
+NBANDSV = xxx
+
+Copy WAVECAR, WAVEDER and all W000*.tmp WFULL000*.tmp files
+from G0W0 calculation  ->  therefore W*
+
+Do not use LOPTICS, LRPA or NELM for this calculation
+-----------------------------------------------------------------
+
+TD-DFT
+
+ALGO = TDHF
+NBANDSO = xxx
+NBANDSV = xxx
+
+Selfconsistent calculation (possibly HSE06) must be done beforehand
+
+Copy WAVECAR and WAVEDER and do not use LOPTICS or LRPA
+-----------------------------------------------------------------
+
+Moldecular Dynamics
+
+NSIM = 1 (for really big cells or leave at default)
+ISMEAR = 0 (for safety)
+IBRION = 0 (for MD)
+ISIF = 2 (this makes NVT ensemble)
+MDALGO = 1 (Andersen thermostat for NVT ensemble)
+TEBEG = xxx (temperature)
+ANDERSEN_PROB = 0.01 - 0.05 (set higher for higher temperatures and lower for lower)
+POTIM = xxx (time step in fs)
+NSW = xxx (number of steps defines the total time frame)
+
+PREC = Normal (for better convergence)
+EDIFF = lower than classic single-point runs (again for better convergence)
+-----------------------------------------------------------------
+
+Band decomposed charge densities
+
+orbitals read from WAVECAR must be converged in previous VASP run
+
+LPARD = .TRUE. (specifies whether partial charge densities are evaluated -> the main keyword)
+LSEPB = .TRUE. (Specifies whether the charge density is calculated for every band separately)
+LSEPK = .TRUE. (Write the charge density of every k point)
+#NBMOD = 4 (Controls which bands are used -> if bands are given by IBAND, it can be omitted)
+IBAND=19 20 21 22 (Controls which bands are used in the calculation by NAMING them)
+KPUSE=1 (specifies which k-points are used -> here the 1st one, usually Gamma point)
+-----------------------------------------------------------------

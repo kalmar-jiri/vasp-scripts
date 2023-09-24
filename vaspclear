@@ -1,0 +1,18 @@
+#!/bin/bash
+
+rm CHG
+rm CHGCAR
+rm CONTCAR
+rm DOSCAR
+rm EIGENVAL
+rm IBZKPT
+rm OSZICAR
+rm OUTCAR
+rm PCDAT
+rm REPORT
+rm WAVECAR
+rm XDATCAR
+rm PROCAR
+rm WAVEDER
+rm vasprun.xml
+rm run.sh.*

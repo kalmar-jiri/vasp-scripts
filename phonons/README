@@ -1,0 +1,36 @@
+Phonons
+
+1) (optimal) step for pre-convergence of wave functions
+
+- create a supercell in phonopy w/ 'job1' but keep the old unit cell as 'POSCAR-unitcell'
+- do not forget to properly change MAGMOM on magnetic structures (check w/ VESTA if necessary)
+
+'INCAR'
+-------------------
+NSW = 0
+LWAVE = .TRUE.
+ADDGRID = .TRUE.
+(LCHARG = .FALSE.
+-------------------
+
+
+2) main calculation (often really long)
+
+- do some time estimation of this step based on previous calculations, time needed for one iteration and degrees of freedom
+
+'INCAR'
+-------------------
+ISTART = 1
+#NPAR = XXX   parallelization must be TURNED OFF
+NSW = 1
+IBRION = 6 or 8 (depends whether you want to use 'finite differences' or 'perturbation' method)
+#EDIFFG = XXX   forces convergation showed to make some problems so better keep it turned off
+-------------------
+
+Specify you k-point path in 'band.conf' file
+Specify your temperature interval and q-point mesh in 'mesh.conf' file
+
+
+After succesfully completing the calculation we can use respective 'job*' where * = 2, 3, 4, 5
+
+OR we can use 'phonon' script which runs EVERYTHING

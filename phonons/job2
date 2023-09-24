@@ -1,0 +1,2 @@
+module load phonopy/2.12.0-conda
+phonopy --fc vasprun.xml
